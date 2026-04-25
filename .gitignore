@@ -1,0 +1,17 @@
+# Local notes/docs not for GitHub
+notes/
+7021SCN_TaskC_New_Workspace_Handoff.md
+7021SCN_Week_5_Lab_1_Automating_SAST_with_GitHub_Actions.md
+7021SCN_Week_5_Lab_1_Solutions.md
+
+# Local runtime/generated files
+database.db
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+semgrep-report.json
+semgrep-results.sarif
+*.zip
