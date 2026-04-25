@@ -22,7 +22,6 @@ jobs:
           semgrep scan \
           --config "p/owasp-top-ten" \
           --config "p/flask" \
-          --metrics=off \
           --error \
           --json \
           --output semgrep-report.json
