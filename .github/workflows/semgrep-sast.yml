@@ -7,8 +7,23 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  security-scan:
-    name: Semgrep Scan
+  semgrep-ci-cloud:
+    name: Semgrep CI (Cloud)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep CI in Cloud App
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+        run: semgrep ci
+
+  semgrep-scan-report:
+    name: Semgrep Scan (JSON Artifact)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
