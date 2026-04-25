@@ -19,13 +19,14 @@ jobs:
 
       - name: Run Semgrep and Export JSON
         run: |
-         --config p/owasp-top-ten \
+          semgrep scan \  
+            --config p/owasp-top-ten \
             --config p/flask \
             --config custom-rules.yaml \
-            --metrics=off \
+            --metrics=off \ 
             --error \
             --json \
-            --output semgrep-report.json \
+            --output semgrep-report.json
 
       - name: Upload Semgrep Report
         uses: actions/upload-artifact@v4
