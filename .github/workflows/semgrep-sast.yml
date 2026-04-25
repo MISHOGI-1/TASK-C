@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main", "master" ]
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   semgrep-ci-cloud:
     name: Semgrep CI (Cloud)
@@ -32,18 +36,36 @@ jobs:
       - name: Install Semgrep
         run: pip install semgrep
 
-      - name: Run Semgrep and Export JSON
+      - name: Run Semgrep and Export Reports
         run: |
+          set +e
           semgrep scan \
-          --config "p/owasp-top-ten" \
-          --config "p/flask" \
-          --error \
-          --json \
-          --output semgrep-report.json
+            --config "p/owasp-top-ten" \
+            --config "p/flask" \
+            --error \
+            --json \
+            --output semgrep-report.json
+          SCAN_EXIT=$?
+
+          semgrep scan \
+            --config "p/owasp-top-ten" \
+            --config "p/flask" \
+            --sarif \
+            --output semgrep-results.sarif
+
+          exit $SCAN_EXIT
+
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: semgrep-results.sarif
 
       - name: Upload Semgrep Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: semgrep-audit-report
-          path: semgrep-report.json
+          path: |
+            semgrep-report.json
+            semgrep-results.sarif
