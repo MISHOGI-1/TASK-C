@@ -7,7 +7,7 @@ Then run the following command to install Python Flask:
 
 pip install flask
 
-Finally, run the following commadn to start the Flask app:
+Finally, run the following command to start the Flask app:
 
 flask run
 
